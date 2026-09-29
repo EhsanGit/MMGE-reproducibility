@@ -65,11 +65,19 @@ def single_panel_map(field, cmap, vmin, vmax, extend, colorbar_label, corner_lab
     ax.add_feature(cfeature.OCEAN, color='white', zorder=0)
     ax.add_feature(cfeature.LAND, color='lightgray', zorder=0, linewidth=0.5, edgecolor='black')
     ax.set_title('')
-    gl = ax.gridlines(draw_labels=True, alpha=0.3)
-    gl.top_labels = False
-    gl.right_labels = False
+    gl = ax.gridlines(draw_labels=False, alpha=0.3, linewidth=0.5)
     gl.xlocator = plt.FixedLocator(LON_TICKS)
     gl.ylocator = plt.FixedLocator(LAT_TICKS)
+    ax.set_xticks(LON_TICKS, crs=proj)
+    ax.xaxis.set_major_formatter(LongitudeFormatter())
+    ax.set_yticks(LAT_TICKS, crs=proj)
+    ax.yaxis.set_major_formatter(LatitudeFormatter())
+    ax.tick_params(axis='both', labelsize=9)
+    for label in ax.get_xticklabels():
+        label.set_rotation(45)
+        label.set_ha('right')
+    ax.set_xlabel('')
+    ax.set_ylabel('')
     ax.text(0.02, 0.03, corner_label, transform=ax.transAxes, fontsize=9, va='bottom', ha='left',
             zorder=5, bbox=dict(boxstyle='round,pad=0.25', facecolor='white', alpha=0.85, edgecolor='0.6'))
     fig.colorbar(im, ax=ax, extend=extend, fraction=0.044 / grid_aspect, pad=0.02, label=colorbar_label)
@@ -107,7 +115,10 @@ def by_forcing_grid(log2_ratio_by_forcing, name):
         if i == n - 1:
             ax.set_xticks(LON_TICKS, crs=proj)
             ax.xaxis.set_major_formatter(LongitudeFormatter())
-            ax.tick_params(axis='x', labelsize=8)
+            ax.tick_params(axis='x', labelsize=9)
+            for label in ax.get_xticklabels():
+                label.set_rotation(45)
+                label.set_ha('right')
         else:
             ax.set_xticks([])
         ax.set_xlabel('')
