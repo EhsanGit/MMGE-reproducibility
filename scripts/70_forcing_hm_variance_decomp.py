@@ -56,7 +56,8 @@ def log2_ratio(forcing_component, model_component, floor):
 
 def single_panel_map(field, cmap, vmin, vmax, extend, colorbar_label, corner_label, name, num_colors=None):
     proj = ccrs.PlateCarree()
-    fig, ax = plt.subplots(figsize=(12, 6), subplot_kw={'projection': proj})
+    grid_aspect = field.sizes['longitude'] / field.sizes['latitude']
+    fig, ax = plt.subplots(figsize=(12, 12 / grid_aspect), subplot_kw={'projection': proj})
     if num_colors:
         cmap = plt.get_cmap(cmap, num_colors)
     im = field.plot(ax=ax, cmap=cmap, vmin=vmin, vmax=vmax, add_colorbar=False, transform=proj)
@@ -71,7 +72,7 @@ def single_panel_map(field, cmap, vmin, vmax, extend, colorbar_label, corner_lab
     gl.ylocator = plt.FixedLocator(LAT_TICKS)
     ax.text(0.02, 0.03, corner_label, transform=ax.transAxes, fontsize=9, va='bottom', ha='left',
             zorder=5, bbox=dict(boxstyle='round,pad=0.25', facecolor='white', alpha=0.85, edgecolor='0.6'))
-    fig.colorbar(im, ax=ax, extend=extend, fraction=0.044, pad=0.02, label=colorbar_label)
+    fig.colorbar(im, ax=ax, extend=extend, fraction=0.044 / grid_aspect, pad=0.02, label=colorbar_label)
     savefig(fig, name)
 
 
