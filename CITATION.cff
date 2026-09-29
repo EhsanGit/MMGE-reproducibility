@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite it as below, together with the accompanying article."
+title: "Codebase for: ULYSSES Multi-Model Global Evaluation (MMGE)"
+authors:
+  - family-names: Modiri
+    given-names: Ehsan
+    affiliation: "Helmholtz Centre for Environmental Research - UFZ"
+    email: ehsan.modiri@ufz.de
+version: 1.0.0
+date-released: 2026-10-01
+doi: 10.5281/zenodo.YYYYYYY
+license: MIT
+repository-code: "https://github.com/EhsanGit/MMGE-reproducibility"

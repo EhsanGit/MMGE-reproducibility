@@ -1,0 +1,16 @@
+name: mmge
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - pandas
+  - xarray
+  - netcdf4
+  - scipy
+  - matplotlib
+  - cartopy
+  - shapely
+  - cmcrameri
+  - pyarrow
+  - requests
