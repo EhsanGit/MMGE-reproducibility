@@ -113,7 +113,7 @@ def by_forcing_grid(log2_ratio_by_forcing, name):
 
     fig.subplots_adjust(hspace=0.12)
     colorbar(fig, im, boundaries, ax=axes, fraction=0.025, pad=0.02, aspect=35,
-                 extend='both', label='log$_2$(Forcing variance / HM variance)')
+                 extend='both', label='log$_2$(Forcing variance / model variance)')
     savefig(fig, name)
 
 
@@ -142,10 +142,10 @@ def main():
                       'Forcing-driven variance of Q (m$^6$ s$^{-2}$)',
                       'Forcing-driven variance', 'figure9_forcing_contribution', num_colors=7)
     single_panel_map(model_contribution, 'viridis', 0, 5, 'max',
-                      'HM-driven variance of Q (m$^6$ s$^{-2}$)',
-                      'HM-driven variance', 'figure9_hm_contribution', num_colors=7)
+                      'Model-driven variance of Q (m$^6$ s$^{-2}$)',
+                      'Model-driven variance', 'figure9_hm_contribution', num_colors=7)
     single_panel_map(ratio_combined, 'RdBu_r', LOG2_VMIN, LOG2_VMAX, 'both',
-                      'log$_2$(Forcing variance / HM variance)',
+                      'log$_2$(Forcing variance / model variance)',
                       'Combined ratio, averaged over forcing', 'figure9_log2_ratio_combined',
                       num_colors=LOG2_NUM_COLORS)
 
