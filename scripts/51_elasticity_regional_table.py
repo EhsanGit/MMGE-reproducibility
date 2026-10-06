@@ -63,7 +63,7 @@ def main():
         else:
             behaviour = 'Models disagree'
         row['Behaviour'] = behaviour
-        row['Spread'] = round(spread, 2)
+        row['Range'] = round(spread, 2)
         rows.append(row)
 
     df = pd.DataFrame(rows)

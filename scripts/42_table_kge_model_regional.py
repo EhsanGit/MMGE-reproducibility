@@ -36,7 +36,7 @@ def classify_behaviour(row, min_spread=0.15):
 
 behaviours, spreads = zip(*(classify_behaviour(row) for _, row in medians.iterrows()))
 medians['Behaviour'] = behaviours
-medians['Spread'] = spreads
+medians['Range'] = spreads
 
 out = round_frame(medians, 2)
 out.index.name = 'Region'

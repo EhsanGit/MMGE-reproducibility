@@ -62,7 +62,7 @@ def build_table(ds, region_code):
             row[FORCING_LABEL[forcing]] = round(med, 2)
         spread = max(medians.values()) - min(medians.values())
         row['Behaviour'] = 'Forcings agree' if spread < 0.5 else 'Moderate disagreement'
-        row['Spread'] = round(spread, 2)
+        row['Range'] = round(spread, 2)
         rows.append(row)
     df = pd.DataFrame(rows)
     print(df.to_string(index=False))
