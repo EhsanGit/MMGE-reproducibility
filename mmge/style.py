@@ -6,7 +6,7 @@ from matplotlib.colors import BoundaryNorm, ListedColormap
 
 MODELS = ['htessel', 'jules', 'mhm', 'pcrglobwb']
 MODEL_LABEL = {'htessel': 'HTESSEL', 'jules': 'JULES', 'mhm': 'mHM', 'pcrglobwb': 'PCR-GLOBWB'}
-FORCINGS = ['era5land', 'em_earth', 'mswep', 'w5e5']
+FORCINGS = ['em_earth', 'era5land', 'mswep', 'w5e5']
 FORCING_LABEL = {'era5land': 'ERA5-Land', 'em_earth': 'EM-Earth', 'mswep': 'MSWEP', 'w5e5': 'W5E5'}
 
 # Categorical palettes, validated for colour-vision-deficiency safety with four series.

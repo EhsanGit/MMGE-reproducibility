@@ -87,7 +87,7 @@ def main():
         im_diff = ds[f'relative_difference_{forcing}'].plot(
             ax=ax, **discrete_map_colours(ds[f'relative_difference_{forcing}'], diff_cmap, diff_boundaries), add_colorbar=False, transform=proj)
         style_axis(ax, j + 1, n_rows)
-        ax.text(0.02, 0.03, f'{FORCING_LABEL[forcing]} - reference', transform=ax.transAxes, fontsize=9,
+        ax.text(0.02, 0.03, f'{FORCING_LABEL[forcing]} − ERA5-Land', transform=ax.transAxes, fontsize=9,
                 va='bottom', ha='left',
                 bbox=dict(boxstyle='round,pad=0.25', facecolor='white', alpha=0.85, edgecolor='0.6'))
 

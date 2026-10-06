@@ -118,6 +118,9 @@ def plot_boxplot(data):
     ax.axhline(1, color='0.6', linewidth=0.7, linestyle='--', zorder=0)
     ax.set_ylabel(r'$\varepsilon$, single-forcing pair, per model and ensemble mean [-]', fontsize=18)
     ax.set_xlim(positions_base[0] - REGION_SPACING / 2, positions_base[-1] + REGION_SPACING / 2)
+    for r_i in range(1, len(REGION_ORDER)):
+        ax.axvline((positions_base[r_i - 1] + positions_base[r_i]) / 2, color='0.5', linestyle=':', linewidth=1.2, zorder=0)
+    ax.text(0.005, 0.98, '(b)', transform=ax.transAxes, fontsize=24, fontweight='bold', va='top', ha='left')
 
     handles = [plt.Rectangle((0, 0), 1, 1, facecolor=SUBGROUP_COLORS[i], alpha=0.85) for i in range(n_sub)]
     ax.legend(handles, SUBGROUP_LABELS, loc='upper right', ncol=n_sub, fontsize=18)
