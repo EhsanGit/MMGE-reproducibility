@@ -1,6 +1,6 @@
 # Processed datasets for the MMGE figures and tables
 
-Processed data underlying the figures and tables of *Quantifying the Global Impact of Forcing Variability on Hydrological and Land Surface Model Performance: A Multi-Model Evaluation* (Modiri et al., Journal of Hydrometeorology). The code that reads these files is archived at doi:10.5281/zenodo.YYYYYYY (https://github.com/EhsanGit/MMGE-reproducibility).
+Processed data underlying the figures and tables of *Quantifying the Global Impact of Forcing Variability on Hydrological and Land Surface Model Performance: A Multi-Model Evaluation* (Modiri et al., submitted to Journal of Geophysical Research: Atmospheres). The code that reads these files is available at https://github.com/EhsanGit/MMGE-reproducibility and archived on Zenodo.
 
 The data cover four models (HTESSEL, JULES, mHM, PCR-GLOBWB) and four meteorological forcings (EM-Earth, ERA5-Land, MSWEP, W5E5), over 1981–2019 unless stated otherwise. Gridded fields are on a regular 0.1° grid (3600 × 1400 cells, 55.95°S–83.95°N). They are stored as compressed NetCDF-4, with land cells only (ocean = NaN). Gauge-level data are CSV files, one row per GRDC station, keyed by the GRDC station number.
 

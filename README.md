@@ -2,11 +2,11 @@
 
 This repository contains the code to reproduce every figure and table of
 
-> Modiri, E., Samaniego, L., Schweppe, R., Shrestha, P. K., Rakovec, O., Kelbling, M., Kumar, R., Leal Rojas, J. J., Martínez-de la Torre, A., Chevuturi, A., Facer-Childs, K., Robinson, E., Sutanudjaja, E., Wanders, N., and Thober, S.: *Quantifying the Global Impact of Forcing Variability on Hydrological and Land Surface Model Performance: A Multi-Model Evaluation*, Journal of Hydrometeorology (submitted).
+> Modiri, E., Samaniego, L., Schweppe, R., Shrestha, P. K., Rakovec, O., Kelbling, M., Kumar, R., Leal Rojas, J. J., Martínez-de la Torre, A., Chevuturi, A., Facer-Childs, K., Robinson, E., Sutanudjaja, E., Wanders, N., and Thober, S.: *Quantifying the Global Impact of Forcing Variability on Hydrological and Land Surface Model Performance: A Multi-Model Evaluation*, Journal of Geophysical Research: Atmospheres (submitted).
 
 The study evaluates four large-scale hydrological and land-surface models (HTESSEL, JULES, mHM and PCR-GLOBWB), each driven by four meteorological forcing datasets (EM-Earth, ERA5-Land, MSWEP and W5E5) over 1981–2019 at 0.1° resolution.
 
-The scripts start from processed datasets, for example long-term means, gauge-level skill scores, per-cell elasticities and anomaly correlations. These are archived separately on Zenodo ([doi:10.5281/zenodo.XXXXXXX](https://doi.org/10.5281/zenodo.XXXXXXX)). The full model simulations are available from the corresponding authors on request.
+The scripts start from processed datasets, for example long-term means, gauge-level skill scores, per-cell elasticities and anomaly correlations. These are archived separately on Zenodo ([doi:10.5281/zenodo.23210248](https://doi.org/10.5281/zenodo.23210248)). The full model simulations are available from the corresponding authors on request.
 
 ## Quick start
 
@@ -87,7 +87,7 @@ Streamflow KGE follows Gupta et al. (2009) and compares monthly simulated discha
 
 ## Citation
 
-If you use this code, please cite the article and this repository ([doi:10.5281/zenodo.YYYYYYY](https://doi.org/10.5281/zenodo.YYYYYYY)); see `CITATION.cff`.
+If you use this code, please cite the article and this repository (archived on Zenodo; see `CITATION.cff`).
 
 ## Licence
 

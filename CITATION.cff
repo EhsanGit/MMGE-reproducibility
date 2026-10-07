@@ -6,8 +6,15 @@ authors:
     given-names: Ehsan
     affiliation: "Helmholtz Centre for Environmental Research - UFZ"
     email: ehsan.modiri@ufz.de
+    orcid: "https://orcid.org/0000-0002-4432-0343"
 version: 1.0.0
-date-released: 2026-10-01
-doi: 10.5281/zenodo.YYYYYYY
+date-released: 2026-10-07
 license: MIT
 repository-code: "https://github.com/EhsanGit/MMGE-reproducibility"
+references:
+  - type: dataset
+    title: "Derived datasets for: Quantifying the Global Impact of Forcing Variability on Hydrological and Land Surface Model Performance"
+    doi: 10.5281/zenodo.23210248
+    authors:
+      - family-names: Modiri
+        given-names: Ehsan

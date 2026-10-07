@@ -7,7 +7,7 @@ from pathlib import Path
 
 import requests
 
-ZENODO_RECORD = 'XXXXXXX'  # dataset record, doi:10.5281/zenodo.XXXXXXX
+ZENODO_RECORD = '23210248'  # dataset record, doi:10.5281/zenodo.23210248
 DATA_DIR = Path(__file__).resolve().parent / 'data'
 
 

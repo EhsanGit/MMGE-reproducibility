@@ -2,9 +2,9 @@
 
 Grid-cell-level distribution of the screened relative-change ratio
 Delta_Q/Delta_P (the same pairs behind the fitted elasticity in
-fig:figure5-elasticity), by WMO region and perturbed forcing, as boxplots:
-one box per model plus one for the ensemble mean, pooled across the three
-perturbed forcings (EM-Earth, MSWEP, W5E5).
+fig:figure5-elasticity), by WMO region, as boxplots:
+one box per model plus one for the ensemble mean, with the ratios of the three
+perturbed forcings (EM-Earth, MSWEP, W5E5) pooled within each region.
 """
 import sys
 from pathlib import Path
@@ -67,16 +67,17 @@ def main():
             vals = field[region_sel[region]]
             data[region][forcing]['ensemble'] = vals[np.isfinite(vals)]
 
+    pooled = {region: {'pooled': {sub: np.concatenate([data[region][f][sub] for f in PERTURBED])
+                                  for sub in SUBGROUPS}} for region in REGION_ORDER}
     for region in REGION_ORDER:
-        for forcing in PERTURBED:
-            vals = data[region][forcing]['ensemble']
-            if vals.size:
-                print(f'{region} / {FORCING_LABEL[forcing]}: n={vals.size}, median={np.median(vals):.2f}')
+        meds = {sub: round(float(np.median(v)), 2) for sub, v in pooled[region]['pooled'].items() if v.size}
+        print(f'{region} (pooled over forcings): {meds}')
 
-    plot_boxplot(data)
+    plot_boxplot(pooled, groups=['pooled'], group_labels={'pooled': ''})
 
 
-def plot_boxplot(data):
+def plot_boxplot(data, groups=PERTURBED, group_labels=None):
+    group_labels = group_labels or {g: FORCING_LABEL[g] for g in groups}
     n_sub = len(SUBGROUPS)
     MODEL_W, MODEL_GAP = 0.10, 0.02
     model_step = MODEL_W + MODEL_GAP
@@ -85,7 +86,7 @@ def plot_boxplot(data):
 
     FORCING_GAP = 0.20
     block_step = 2 * block_half_width + FORCING_GAP
-    n_forcings = len(PERTURBED)
+    n_forcings = len(groups)
     forcing_offsets = (np.arange(n_forcings) - (n_forcings - 1) / 2) * block_step
 
     REGION_SPACING = 2 * (forcing_offsets.max() + block_half_width) + 0.6
@@ -93,7 +94,7 @@ def plot_boxplot(data):
 
     fig, ax = plt.subplots(figsize=(26, 7))
     for r_i, region in enumerate(REGION_ORDER):
-        for f_i, forcing in enumerate(PERTURBED):
+        for f_i, forcing in enumerate(groups):
             block_center = positions_base[r_i] + forcing_offsets[f_i]
             for s_i, subgroup in enumerate(SUBGROUPS):
                 vals = data[region][forcing][subgroup]
@@ -105,7 +106,7 @@ def plot_boxplot(data):
                 for patch in bp['boxes']:
                     patch.set_facecolor(SUBGROUP_COLORS[s_i])
                     patch.set_alpha(0.85)
-            ax.text(block_center, 1.005, FORCING_LABEL[forcing], transform=ax.get_xaxis_transform(),
+            ax.text(block_center, 1.005, group_labels[forcing], transform=ax.get_xaxis_transform(),
                     fontsize=16, ha='center', va='bottom')
 
     ax.set_xticks(positions_base)
