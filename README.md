@@ -87,7 +87,7 @@ Streamflow KGE follows Gupta et al. (2009) and compares monthly simulated discha
 
 ## Citation
 
-If you use this code, please cite the article and this repository (archived on Zenodo; see `CITATION.cff`).
+If you use this code, please cite the article and this repository ([doi:10.5281/zenodo.23211061](https://doi.org/10.5281/zenodo.23211061)); see `CITATION.cff`.
 
 ## Licence
 

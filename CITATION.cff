@@ -7,7 +7,8 @@ authors:
     affiliation: "Helmholtz Centre for Environmental Research - UFZ"
     email: ehsan.modiri@ufz.de
     orcid: "https://orcid.org/0000-0002-4432-0343"
-version: 1.0.0
+version: 1.0.1
+doi: 10.5281/zenodo.23211061
 date-released: 2026-10-07
 license: MIT
 repository-code: "https://github.com/EhsanGit/MMGE-reproducibility"
