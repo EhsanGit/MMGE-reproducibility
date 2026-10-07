@@ -13,6 +13,7 @@ import pandas as pd
 from mmge.paths import data_file, TABLE_DIR
 from mmge.regions import REGION_ORDER
 from mmge.style import MODELS, MODEL_LABEL
+from mmge.style import round_half_away
 from mmge.style import round_frame
 
 df = pd.read_csv(data_file('kge', 'multimodel_ensemble_kge_gauges_era5land.csv'))
@@ -28,7 +29,8 @@ def classify_spread(row, low=0.15, high=0.35):
     """Classifies model agreement from the row's spread (max minus min); same
     convention and thresholds used throughout this analysis for the individual
     models' own agreement/disagreement."""
-    spread = row.max() - row.min()
+    row = row.map(lambda v: round_half_away(v, 2))
+    spread = round_half_away(row.max() - row.min(), 2)
     if spread < low:
         return 'Agree', spread
     elif spread < high:

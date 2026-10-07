@@ -11,7 +11,7 @@ import pandas as pd
 from mmge.paths import data_file, TABLE_DIR
 from mmge.regions import REGION_ORDER
 from mmge.style import MODELS, MODEL_LABEL
-from mmge.style import round_frame
+from mmge.style import round_frame, round_half_away
 
 df = pd.read_csv(data_file('kge', 'streamflow_kge_gauges.csv'))
 cols = [f'kge_{m}_era5land' for m in MODELS]
@@ -21,17 +21,20 @@ medians.columns = labels
 medians = medians.reindex(REGION_ORDER)
 
 
-def classify_behaviour(row, min_spread=0.15):
-    """Names the model that clearly leads or lags the other three, or 'Comparable'
-    when the row's spread is small. Spread is the row's max minus its min."""
-    spread = row.max() - row.min()
-    if spread < min_spread:
+def classify_behaviour(row, min_range=0.15, disagree_range=1.0, lag_gap=0.3):
+    """Behaviour label from the rounded medians of one region: 'Models disagree' when the
+    range across the models exceeds disagree_range, 'Comparable' when it is below min_range,
+    otherwise the model that lags by more than lag_gap or, failing that, the leading model."""
+    row = row.map(lambda v: round_half_away(v, 2))
+    spread = round_half_away(row.max() - row.min(), 2)
+    if spread > disagree_range:
+        return 'Models disagree', spread
+    if spread < min_range:
         return 'Comparable', spread
     winner, loser = row.idxmax(), row.idxmin()
-    winner_gap = row[winner] - row.drop(winner).max()
-    loser_gap = row.drop(loser).min() - row[loser]
-    behaviour = f'{winner} leads' if winner_gap >= loser_gap else f'{loser} lags'
-    return behaviour, spread
+    if row.drop(loser).min() - row[loser] > lag_gap:
+        return f'{loser} lags', spread
+    return f'{winner} leads', spread
 
 
 behaviours, spreads = zip(*(classify_behaviour(row) for _, row in medians.iterrows()))

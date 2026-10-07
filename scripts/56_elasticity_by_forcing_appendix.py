@@ -60,7 +60,8 @@ def build_table(ds, region_code):
             med = float(np.median(vals)) if vals.size else np.nan
             medians[forcing] = med
             row[FORCING_LABEL[forcing]] = round(med, 2)
-        spread = max(medians.values()) - min(medians.values())
+        rounded = [round(m, 2) for m in medians.values()]
+        spread = round(max(rounded) - min(rounded), 2)
         row['Behaviour'] = 'Forcings agree' if spread < 0.5 else 'Moderate disagreement'
         row['Range'] = round(spread, 2)
         rows.append(row)

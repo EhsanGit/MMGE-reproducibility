@@ -39,7 +39,7 @@ def main():
         reg_med = float(np.median(reg_vals[np.isfinite(reg_vals)]))
         avg_med = float(np.median(avg_vals[np.isfinite(avg_vals)]))
         rows.append({'Region': REGION_DISPLAY[region], 'Regression': round(reg_med, 2),
-                     'Averaging': round(avg_med, 2), 'Difference': round(avg_med - reg_med, 2)})
+                     'Averaging': round(avg_med, 2), 'Difference': round(round(avg_med, 2) - round(reg_med, 2), 2)})
     df = pd.DataFrame(rows)
     print(df.to_string(index=False))
     df.to_csv(TABLE_DIR / 'elasticity-method-comparison.csv', index=False)

@@ -11,6 +11,7 @@ import pandas as pd
 from mmge.paths import data_file, TABLE_DIR
 from mmge.regions import REGION_ORDER
 from mmge.style import FORCINGS, FORCING_LABEL
+from mmge.style import round_half_away
 from mmge.style import round_frame
 
 df = pd.read_csv(data_file('kge', 'streamflow_kge_gauges.csv'))
@@ -24,7 +25,8 @@ medians = medians.reindex(REGION_ORDER)
 def classify_behaviour(row, min_spread=0.10):
     """Names the forcing that clearly leads or lags the other three, or 'Comparable'
     when the row's spread is small. Spread is the row's max minus its min."""
-    spread = row.max() - row.min()
+    row = row.map(lambda v: round_half_away(v, 2))
+    spread = round_half_away(row.max() - row.min(), 2)
     if spread < min_spread:
         return 'Comparable', spread
     winner, loser = row.idxmax(), row.idxmin()

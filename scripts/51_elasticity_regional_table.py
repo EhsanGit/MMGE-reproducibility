@@ -55,7 +55,7 @@ def main():
         for model in MODELS:
             row[MODEL_LABEL[model]] = round(medians[model], 2)
         vals_list = [medians[m] for m in MODELS if np.isfinite(medians[m])]
-        spread = max(vals_list) - min(vals_list)
+        spread = round(max(round(v, 2) for v in vals_list) - min(round(v, 2) for v in vals_list), 2)
         if spread < 0.5:
             behaviour = 'Models agree'
         elif spread < 1.5:
