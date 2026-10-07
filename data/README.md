@@ -12,6 +12,4 @@ The data cover four models (HTESSEL, JULES, mHM, PCR-GLOBWB) and four meteorolog
 | `elasticity/` | Precipitation elasticity of runoff and evapotranspiration; precipitation and runoff perturbations; Köppen–Geiger classes and elevation | `README_elasticity.md` |
 | `forcing_hm_variance/` | Long-term mean discharge for all 16 model–forcing combinations, input to the forcing-versus-model variance decomposition | `README_forcing_hm_variance.md` |
 
-The streamflow KGE values for PCR-GLOBWB were provided by the PCR-GLOBWB team (Department of Physical Geography, Utrecht University).
-
 Licence: CC BY 4.0.

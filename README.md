@@ -83,7 +83,7 @@ environment.yml      conda environment
 | `elasticity/` | per-cell precipitation elasticity of runoff and ET, precipitation and runoff perturbations, Köppen–Geiger classes and elevation (0.1°) |
 | `forcing_hm_variance/` | long-term mean discharge for all 16 model–forcing combinations (0.1°) |
 
-Streamflow KGE follows Gupta et al. (2009) and is computed from monthly discharge against GRDC observations over 1981–2019. The KGE values for PCR-GLOBWB were provided by the PCR-GLOBWB team (Department of Physical Geography, Utrecht University).
+Streamflow KGE follows Gupta et al. (2009) and compares monthly simulated discharge with GRDC observations at each gauge.
 
 ## Citation
 

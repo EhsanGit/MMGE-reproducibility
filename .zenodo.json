@@ -1,0 +1,22 @@
+{
+  "title": "MMGE-reproducibility: code to reproduce the figures and tables of the ULYSSES multi-model global evaluation",
+  "upload_type": "software",
+  "description": "<p>Python code to reproduce every figure and table of the manuscript <em>Quantifying the Global Impact of Forcing Variability on Hydrological and Land Surface Model Performance: A Multi-Model Evaluation</em>. The study evaluates four global hydrological and land-surface models (HTESSEL, JULES, mHM and PCR-GLOBWB), each driven by four precipitation forcings (EM-Earth, ERA5-Land, MSWEP and W5E5) over 1981&ndash;2019 at 0.1&deg; resolution.</p><p>The scripts start from the processed datasets archived separately on Zenodo; <code>download_data.py</code> retrieves them and <code>run_all.py</code> regenerates all outputs.</p>",
+  "creators": [
+    {
+      "name": "Modiri, Ehsan",
+      "affiliation": "Helmholtz Centre for Environmental Research - UFZ"
+    }
+  ],
+  "license": "MIT",
+  "keywords": [
+    "global hydrological modelling",
+    "land surface models",
+    "precipitation forcing",
+    "multi-model ensemble",
+    "uncertainty attribution",
+    "water balance",
+    "ULYSSES"
+  ],
+  "language": "eng"
+}
