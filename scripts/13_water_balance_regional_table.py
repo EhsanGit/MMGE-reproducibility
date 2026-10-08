@@ -1,5 +1,5 @@
-"""Reproduces Table 3 (\\label{tab:figure2-regional}): mean water balance
-closure error, area-averaged by WMO Regional Association region, for
+"""Reproduces Table 3 (\\label{tab:figure2-regional}): median water balance
+closure error over the grid cells of each WMO Regional Association region, for
 EM-Earth, ERA5-Land, MSWEP and W5E5. A region's Behaviour is
 "Deficit-closed" if no forcing gives a positive error there, "Surplus-closed"
 if no forcing gives a negative error, and "Mixed" otherwise.
@@ -61,7 +61,7 @@ def main():
         for label in labels:
             vals = coarse[label].values[region_sel]
             vals = vals[np.isfinite(vals)]
-            means[label] = float(np.mean(vals)) if len(vals) else np.nan
+            means[label] = float(np.median(vals)) if len(vals) else np.nan
         row = {'Region': region}
         row.update(means)
         signs = [np.sign(means[label]) for label in labels]
