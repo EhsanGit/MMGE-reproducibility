@@ -39,19 +39,19 @@ LAT_TICKS = np.arange(-60, 81, 20)
 FORCING_PANEL_ORDER = ['em_earth', 'era5land', 'mswep', 'w5e5']
 
 
-def significance_floor(*components, percentile=MIN_VARIANCE_PERCENTILE):
+def magnitude_threshold(*components, percentile=MIN_VARIANCE_PERCENTILE):
     """Bottom percentile of the pooled positive values of the given variance maps."""
     pooled = np.concatenate([c.where(c > 0).values.ravel() for c in components])
     pooled = pooled[np.isfinite(pooled)]
     return float(np.nanpercentile(pooled, percentile))
 
 
-def log2_ratio(forcing_component, model_component, floor):
-    """log2(forcing / model), masked where neither component clears the significance floor."""
+def log2_ratio(forcing_component, model_component, threshold):
+    """log2(forcing / model), masked where neither component clears the magnitude threshold."""
     safe_model = model_component.where(model_component > 0)
     ratio = (forcing_component / safe_model).where(lambda r: r > 0)
-    significant = (forcing_component >= floor) | (model_component >= floor)
-    return np.log2(ratio.where(significant))
+    above = (forcing_component >= threshold) | (model_component >= threshold)
+    return np.log2(ratio.where(above))
 
 
 def single_panel_map(field, cmap, vmin, vmax, extend, colorbar_label, corner_label, name, num_colors=None):
@@ -136,12 +136,12 @@ def main():
     model_contribution = cube.var(dim='model').mean(dim='forcing')
     model_contribution_by_forcing = cube.var(dim='model')  # kept per forcing, dims (forcing, lat, lon)
 
-    floor = significance_floor(forcing_contribution, model_contribution)
-    print(f'Significance floor (bottom {MIN_VARIANCE_PERCENTILE}th percentile of variance magnitude): {floor:.6g}')
+    threshold = magnitude_threshold(forcing_contribution, model_contribution)
+    print(f'Magnitude threshold (bottom {MIN_VARIANCE_PERCENTILE}th percentile of variance magnitude): {threshold:.6g}')
 
-    ratio_combined = log2_ratio(forcing_contribution, model_contribution, floor)
+    ratio_combined = log2_ratio(forcing_contribution, model_contribution, threshold)
     ratio_by_forcing = xr.concat(
-        [log2_ratio(forcing_contribution, model_contribution_by_forcing.sel(forcing=f), floor)
+        [log2_ratio(forcing_contribution, model_contribution_by_forcing.sel(forcing=f), threshold)
          for f in FORCING_PANEL_ORDER],
         dim=xr.DataArray(FORCING_PANEL_ORDER, dims='forcing', name='forcing'))
 

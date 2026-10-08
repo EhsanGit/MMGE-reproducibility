@@ -6,7 +6,7 @@ Reproduces:
 Illustrates the forcing-vs-model variance decomposition of script 70
 step by step, at one concrete grid cell (51.85N, 6.10E, on the Rhine,
 Netherlands/Germany border), using the same climatology cube and the
-same significance floor (computed over the whole grid, not just this cell).
+same magnitude threshold (computed over the whole grid, not just this cell).
 """
 import sys
 from pathlib import Path
@@ -32,30 +32,30 @@ PALETTE_MODELS = {'htessel': '#2a78d6', 'jules': '#eb6834', 'mhm': '#1baf7a', 'p
 PALETTE_FORCINGS = {'em_earth': '#c99a2e', 'era5land': '#00a3a3', 'mswep': '#d6336c', 'w5e5': '#2f6b2f'}
 
 
-def significance_floor(*components, percentile=MIN_VARIANCE_PERCENTILE):
+def magnitude_threshold(*components, percentile=MIN_VARIANCE_PERCENTILE):
     pooled = np.concatenate([c.where(c > 0).values.ravel() for c in components])
     pooled = pooled[np.isfinite(pooled)]
     return float(np.nanpercentile(pooled, percentile))
 
 
-def log2_ratio(forcing_component, model_component, floor):
+def log2_ratio(forcing_component, model_component, threshold):
     safe_model = model_component.where(model_component > 0)
     ratio = (forcing_component / safe_model).where(lambda r: r > 0)
-    significant = (forcing_component >= floor) | (model_component >= floor)
-    return np.log2(ratio.where(significant))
+    above = (forcing_component >= threshold) | (model_component >= threshold)
+    return np.log2(ratio.where(above))
 
 
 def gather_cell_data():
     """Re-derive every number in the workflow at one concrete grid cell, using
-    the pooled significance floor from the full grid (not meaningful from a
+    the pooled magnitude threshold from the full grid (not meaningful from a
     single cell alone)."""
     cube = xr.open_dataset(data_file('forcing_hm_variance', 'q_climatology_cube.nc'))['q']
 
     forcing_contribution = cube.var(dim='forcing').mean(dim='model')
     model_contribution = cube.var(dim='model').mean(dim='forcing')
     model_contribution_by_forcing = cube.var(dim='model')
-    floor = significance_floor(forcing_contribution, model_contribution)
-    ratio_combined = log2_ratio(forcing_contribution, model_contribution, floor)
+    threshold = magnitude_threshold(forcing_contribution, model_contribution)
+    ratio_combined = log2_ratio(forcing_contribution, model_contribution, threshold)
 
     sel = dict(latitude=CELL_LAT, longitude=CELL_LON, method='nearest')
     q_vals = {m: {f: float(cube.sel(model=m, forcing=f).sel(**sel).values) for f in FORCING_ORDER}
@@ -69,12 +69,12 @@ def gather_cell_data():
     mc_by_forcing = {f: float(model_contribution_by_forcing.sel(forcing=f).sel(**sel).values) for f in FORCING_ORDER}
     lr_by_forcing = {}
     for f in FORCING_ORDER:
-        v = log2_ratio(forcing_contribution, model_contribution_by_forcing.sel(forcing=f), floor).sel(**sel).values
+        v = log2_ratio(forcing_contribution, model_contribution_by_forcing.sel(forcing=f), threshold).sel(**sel).values
         lr_by_forcing[f] = float(v) if np.isfinite(v) else np.nan
 
     return dict(q_vals=q_vals, forcing_var_per_model=forcing_var_per_model,
                 model_var_per_forcing=model_var_per_forcing, forcing_contribution=fc,
-                model_contribution=mc, floor=floor, log2_ratio=lr,
+                model_contribution=mc, threshold=threshold, log2_ratio=lr,
                 model_contrib_by_forcing=mc_by_forcing, log2_by_forcing=lr_by_forcing)
 
 
@@ -242,16 +242,16 @@ def main():
             ha='center', fontsize=10.9, color='0.35', style='italic')
     cursor -= 4.0
 
-    # ZONE 4: STEP 3 -- significance floor
+    # ZONE 4: STEP 3 -- magnitude threshold
     arrow(ax, (grid_center, cursor + 1.6), (grid_center, cursor - 1.4))
     cursor -= 3.6
     section_label(ax, LABEL_X, cursor, 'STEP 3')
     box_h = 10.5
-    both_below = (data['forcing_contribution'] < data['floor']) and (data['model_contribution'] < data['floor'])
-    verdict = 'both below floor -> cell masked out' if both_below else 'at least one clears the floor -> cell kept'
+    both_below = (data['forcing_contribution'] < data['threshold']) and (data['model_contribution'] < data['threshold'])
+    verdict = 'both below threshold -> cell masked out' if both_below else 'at least one clears the threshold -> cell kept'
     box(ax, col_x0, cursor - box_h - 1.2, grid_span, box_h,
-        'mask this cell unless max(forcing_contribution, model_contribution) >= significance floor\n'
-        f"({data['floor']:,.4g}, the bottom 25th percentile of pooled positive variance, computed once "
+        'mask this cell unless max(forcing_contribution, model_contribution) >= magnitude threshold\n'
+        f"({data['threshold']:,.4g}, the bottom 25th percentile of pooled positive variance, computed once "
         "over the whole grid).\n"
         f"At this cell: forcing_contribution = {data['forcing_contribution']:,.0f}, "
         f"model_contribution = {data['model_contribution']:,.0f}\n- {verdict}",
@@ -290,7 +290,7 @@ def main():
     print(f'Example cell: {CELL_NAME} ({CELL_LAT}, {CELL_LON})')
     print('forcing_contribution:', round(data['forcing_contribution'], 4))
     print('model_contribution:', round(data['model_contribution'], 4))
-    print('floor:', round(data['floor'], 6))
+    print('threshold:', round(data['threshold'], 6))
     print('log2_ratio (combined):', round(data['log2_ratio'], 4))
     print('log2_ratio by forcing:', {FORCING_LABEL[f]: round(v, 4) if np.isfinite(v) else None
                                       for f, v in data['log2_by_forcing'].items()})
